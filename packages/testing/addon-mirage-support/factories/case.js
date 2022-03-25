@@ -9,4 +9,5 @@ export default Factory.extend({
   createdAt: () => faker.date.past(),
   modifiedAt: () => faker.date.past(),
   status: () => faker.random.arrayElement(STATUS),
+  closedAt: null,
 });

@@ -1,7 +1,6 @@
 import { camelize, dasherize, classify } from "@ember/string";
 import { faker } from "@faker-js/faker";
 import { singularize, pluralize } from "ember-inflector";
-import { MockList } from "graphql-tools";
 
 import deserialize from "@projectcaluma/ember-testing/mirage-graphql/deserialize";
 import createFilter from "@projectcaluma/ember-testing/mirage-graphql/filters";
@@ -151,10 +150,12 @@ export default class BaseMock {
       },
       totalCount,
       edges: () =>
-        new MockList(records.length, () => ({
-          node: (r, v, _, meta) =>
-            serialize(records[meta.path.prev.key], this.type),
-        })),
+        [...new Array(records.length)].map(() => {
+          return {
+            node: (r, v, _, meta) =>
+              serialize(records[meta.path.prev.key], this.type),
+          };
+        }),
     };
   }
 
